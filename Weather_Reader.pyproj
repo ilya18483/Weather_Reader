@@ -11,6 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>Weather_Reader</Name>
     <RootNamespace>Weather_Reader</RootNamespace>
+    <InterpreterId>MSBuild|Weather_Reader|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +23,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Weather_Reader.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="Weather_Reader\">
+      <Id>Weather_Reader</Id>
+      <Version>3.7</Version>
+      <Description>Weather_Reader (Python 3.7 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

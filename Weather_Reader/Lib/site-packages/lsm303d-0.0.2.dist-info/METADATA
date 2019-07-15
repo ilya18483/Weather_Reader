@@ -1,0 +1,41 @@
+Metadata-Version: 2.0
+Name: lsm303d
+Version: 0.0.2
+Summary: Python library for the LSM303d accelerometer and magnetometer
+Home-page: http://www.pimoroni.com
+Author: Philip Howard
+Author-email: phil@pimoroni.com
+License: MIT
+Keywords: Raspberry Pi
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Operating System :: POSIX :: Linux
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development
+Classifier: Topic :: System :: Hardware
+Requires-Dist: i2cdevice (>=0.0.4)
+
+lsm303d Accelerometer And Compass
+=================================
+
+Suitable for measuring orientation and motion, the lsm303d has a 3-axis
+accelerometer and compass.
+
+Installing
+==========
+
+Stable library from PyPi:
+
+-  Just run ``sudo pip install lsm303d``
+
+Latest/development library from GitHub:
+
+-  ``git clone https://github.com/pimoroni/lsm303d-python``
+-  ``cd lsm303d-python``
+-  ``sudo ./install.sh``
+
+

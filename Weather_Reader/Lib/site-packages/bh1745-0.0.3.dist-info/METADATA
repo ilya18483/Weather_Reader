@@ -1,0 +1,58 @@
+Metadata-Version: 2.0
+Name: bh1745
+Version: 0.0.3
+Summary: Python library for the BH1745 colour sensor
+Home-page: http://www.pimoroni.com
+Author: Philip Howard
+Author-email: phil@pimoroni.com
+License: MIT
+Keywords: Raspberry Pi
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Operating System :: POSIX :: Linux
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development
+Classifier: Topic :: System :: Hardware
+Requires-Dist: i2cdevice (>=0.0.4)
+
+BH1745 Colour Sensor
+====================
+
+Most suited to detecting the illuminance and colour temperature of
+ambient light, the BH1745 senses Red, Green and Blue light and converts
+it to 16bit digital values.
+
+Installing
+==========
+
+Stable library from PyPi:
+
+-  Just run ``sudo pip install bh1745``
+
+Latest/development library from GitHub:
+
+-  ``git clone https://github.com/pimoroni/bh1745-python``
+-  ``cd bh1745-python``
+-  ``sudo ./install.sh``
+0.0.3
+-----
+
+* Automagically call setup if not called by user
+* Allow setup() to try alternate i2c addresses
+* Added .ready() to determine if sensor is setup
+
+0.0.2
+-----
+
+* Bumped i2cdevice dependency to >=0.0.4
+
+0.0.1
+-----
+
+* Initial Release
+
+
