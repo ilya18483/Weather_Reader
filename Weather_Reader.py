@@ -9,6 +9,7 @@ theDelay = 120
 
 fieldname = ["Unix", "Date","Time", "Temperature", "Pressure", "Humidity", "Colour", "Orientation","Gas Resistance", "Heat Stability"]
 f_name = "CSVfile_" + str(datetime.date.today()) + ".csv"
+print(f_name)
 
 try:
     sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
@@ -77,8 +78,8 @@ def env_read(names, delay):
         thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability})
     time.sleep(delay)
 
-def ch(TheFile):
-    with open(theFile, "r") as f:
+def ch(file_name):
+    with open(file_name, "r") as f:
         theReader = csv.reader(f)
         theNames = next(theReader)
         if theNames == fieldname:
