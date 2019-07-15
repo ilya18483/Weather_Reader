@@ -60,7 +60,7 @@ try:
                 today)
 
             if sensor.data.heat_stable:
-                print('{0},{1} Ohms'.format(
+                print('{0}, Gas resistance: {1} Ohms'.format(
                     output,
                     sensor.data.gas_resistance))
 
