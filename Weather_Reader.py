@@ -57,26 +57,27 @@ def write_headers(names):
         env_read(fieldname, theDelay)
 
 def env_read(names, delay):
-    tempa = sensor.data.temperature
-    pres = sensor.data.pressure
-    hum = sensor.data.humidity
+    if sensor.get_sensor_data():
+        tempa = sensor.data.temperature
+        pres = sensor.data.pressure
+        hum = sensor.data.humidity
 
-    dt = time.time()
-    d = datetime.date.today()
-    ti = time.strftime("%H:%M:%S")
+        dt = time.time()
+        d = datetime.date.today()
+        ti = time.strftime("%H:%M:%S")
 
-    r,g,b = bh1745.get_rgb_scaled()
-    colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
+        r,g,b = bh1745.get_rgb_scaled()
+        colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
-    xyz = lsm.magnetometer()
-    orientation = "{:+06.2f} : {:+06.2f} : {:+06.2f}".format(*xyz)
+        xyz = lsm.magnetometer()
+        orientation = "{:+06.2f} : {:+06.2f} : {:+06.2f}".format(*xyz)
 
-    heat_stability = sensor.data.heat_stable
-    gas_resistance = sensor.data.gas_resistance
-    with open(f_name, "a") as f:
-        thewriter = csv.DictWriter(f, fieldnames=names)
-        thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability})
-    time.sleep(delay)
+        heat_stability = sensor.data.heat_stable
+        gas_resistance = sensor.data.gas_resistance
+        with open(f_name, "a") as f:
+            thewriter = csv.DictWriter(f, fieldnames=names)
+            thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability})
+        time.sleep(delay)
 
 def ch(file_name):
     with open(file_name, "r") as f:
