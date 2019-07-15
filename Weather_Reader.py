@@ -57,9 +57,9 @@ def write_headers(names):
         env_read(fieldname, theDelay)
 
 def env_read(names, delay):
-    tempa = sensor.data.temperature()
-    pres = sensor.data.pressure()
-    hum = sensor.data.humidity()
+    tempa = sensor.data.temperature
+    pres = sensor.data.pressure
+    hum = sensor.data.humidity
 
     dt = time.time()
     d = datetime.date.today()
@@ -71,8 +71,8 @@ def env_read(names, delay):
     xyz = lsm.magnetometer()
     orientation = "{:+06.2f} : {:+06.2f} : {:+06.2f}".format(*xyz)
 
-    heat_stability = sensor.data.heat_stable()
-    gas_resistance = sensor.data.gas_resistance()
+    heat_stability = sensor.data.heat_stable
+    gas_resistance = sensor.data.gas_resistance
     with open(f_name, "a") as f:
         thewriter = csv.DictWriter(f, fieldnames=names)
         thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability})
