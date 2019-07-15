@@ -51,7 +51,7 @@ try:
             orientation = "Orientation: {:+06.2f} : {:+06.2f} : {:+06.2f}".format(*xyz)
             r,g,b = bh1745.get_rgb_scaled()
             colour = ('#{:02x}{:02x}{:02x}'.format(r, g, b))
-            output = 'Date and Time: {5}Temperature: {0:.2f} C, Pressure: {1:.2f} hPa, Humidity: {2:.2f} %RH, Colour: {3}. {4}'.format(
+            output = 'Date and Time: {5}Temperature: {0:.2f} C, Pressure: {1:.2f} hPa, Humidity: {2:.2f} %RH, {4}. Colour: {3}.'.format(
                 sensor.data.temperature,
                 sensor.data.pressure,
                 sensor.data.humidity,
@@ -60,7 +60,7 @@ try:
                 today)
 
             if sensor.data.heat_stable:
-                print('{0},{1} Ohms'.format(
+                print('{0}, Gas Resistance: {1} Ohms'.format(
                     output,
                     sensor.data.gas_resistance))
 
@@ -71,3 +71,4 @@ try:
 
 except KeyboardInterrupt:
     bh1745.set_leds(0)
+
