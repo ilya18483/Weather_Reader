@@ -1,8 +1,14 @@
 import bme680
 import time
 import datetime
+import csv
 from bh1745 import BH1745
 from lsm303d import LSM303D
+
+theDelay = 120
+
+fieldname = ["Unix", "Date","Time", "Temperature", "Pressure", "Humidity", "Colour", "Orientation","Gas Resistance", "Heat Stability"]
+f_name = "CSVfile_" + str(datetime.date.today()) + ".csv"
 
 try:
     sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
@@ -42,32 +48,48 @@ sensor.set_gas_heater_temperature(320)
 sensor.set_gas_heater_duration(150)
 sensor.select_gas_heater_profile(0)
 
-print('\n\nPolling:')
-try:
+def write_headers(names):
+    with open(f_name, "a") as f:
+        thewriter = csv.DictWriter(f, fieldnames=names)
+        thewriter.writeheader()
     while True:
-        if sensor.get_sensor_data():
-            today = datetime.datetime.now()
-            xyz = lsm.magnetometer()
-            orientation = "Orientation: {:+06.2f} : {:+06.2f} : {:+06.2f}".format(*xyz)
-            r,g,b = bh1745.get_rgb_scaled()
-            colour = ('#{:02x}{:02x}{:02x}'.format(r, g, b))
-            output = 'Date and Time: {5}Temperature: {0:.2f} C, Pressure: {1:.2f} hPa, Humidity: {2:.2f} %RH, Colour: {3}. {4}'.format(
-                sensor.data.temperature,
-                sensor.data.pressure,
-                sensor.data.humidity,
-                colour,
-                orientation,
-                today)
+        env_read(fieldname, theDelay)
 
-            if sensor.data.heat_stable:
-                print('{0}, Gas resistance: {1} Ohms'.format(
-                    output,
-                    sensor.data.gas_resistance))
+def env_read(names, delay):
+    tempa = sensor.data.temperature()
+    pres = sensor.data.pressure()
+    hum = sensor.data.humidity()
 
-            else:
-                print(output)
+    dt = time.time()
+    d = datetime.date.today()
+    ti = time.strftime("%H:%M:%S")
 
-        time.sleep(1)
+    r,g,b = bh1745.get_rgb_scaled()
+    colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
+    xyz = lsm.magnetometer()
+    orientation = "{:+06.2f} : {:+06.2f} : {:+06.2f}".format(*xyz)
+
+    heat_stability = sensor.data.heat_stable()
+    gas_resistance = sensor.data.gas_resistance()
+    with open(f_name, "a") as f:
+        thewriter = csv.DictWriter(f, fieldnames=names)
+        thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability})
+    time.sleep(delay)
+
+def ch(TheFile):
+    with open(theFile, "r") as f:
+        theReader = csv.reader(f)
+        theNames = next(theReader)
+        if theNames == fieldname:
+            while True:
+                env_read(fieldname,theDelay)
+        else:
+            write_headers(fieldname)
+
+try:
+    ch(f_name)
+except IOError:
+    write_headers(fieldname)
 except KeyboardInterrupt:
     bh1745.set_leds(0)
