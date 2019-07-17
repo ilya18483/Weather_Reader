@@ -56,7 +56,7 @@ def write_headers(names):
         thewriter = csv.DictWriter(f, fieldnames=names)
         thewriter.writeheader()
     while True:
-        env_read(fieldname, theDelay)
+        env_read(fieldname, theDelay, gas_baseline, hum_baseline)
 
 def env_read(names, delay, GRbase, Humbase):
     if sensor.get_sensor_data():
