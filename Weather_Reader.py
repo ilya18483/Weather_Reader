@@ -6,6 +6,8 @@ from bh1745 import BH1745
 from lsm303d import LSM303D
 
 theDelay = 120
+gas_baseline = 89000
+hum_baseline = 40.0
 
 fieldname = ["Unix", "Date","Time", "Temperature", "Pressure", "Humidity", "Colour", "Orientation","Gas Resistance", "Heat Stability"]
 f_name = "CSVfile_" + str(datetime.date.today()) + ".csv"
@@ -108,7 +110,7 @@ def ch(file_name):
         theNames = next(theReader)
         if theNames == fieldname:
             while True:
-                env_read(fieldname,theDelay)
+                env_read(fieldname,theDelay, gas_baseline, hum_baseline)
         else:
             write_headers(fieldname)
 
