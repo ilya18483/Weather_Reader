@@ -56,7 +56,7 @@ def write_headers(names):
     while True:
         env_read(fieldname, theDelay)
 
-def env_read(names, delay):
+def env_read(names, delay, GRbase, Humbase):
     if sensor.get_sensor_data():
         tempa = sensor.data.temperature
         pres = sensor.data.pressure
@@ -74,6 +74,29 @@ def env_read(names, delay):
 
         heat_stability = sensor.data.heat_stable
         gas_resistance = sensor.data.gas_resistance
+
+        hum_weighting = 0.25
+        gas_offset = GRbase - gas_resistance
+        hum_offset = hum - Humbase
+
+        if hum_offset >0:
+            hum_score = (100 - Humbase - hum_offset)
+            hum_score /= (100 - Humbase)
+            hum_score *= (hum_weighting * 100)
+        else:
+            hum_score = (Humbase + hum_offset)
+            hum_score /= Humbase
+            hum_score *= (hum_weighting * 100)
+
+        if gas_offset > 0:
+            gas_score = (gas_resistance / GRbase)
+            gas_score *= (100 - (hum_weighting * 100))
+        else:
+            gas_score = 100 - (hum_weighting * 100)
+
+        air_quality_score = hum_score + gas_score
+        print("IAQ Index: {}".format(air_quality_score))
+
         with open(f_name, "a") as f:
             thewriter = csv.DictWriter(f, fieldnames=names)
             thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability})
