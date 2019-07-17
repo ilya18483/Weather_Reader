@@ -6,8 +6,8 @@ from bh1745 import BH1745
 from lsm303d import LSM303D
 
 theDelay = 120
-gas_baseline = 89000
 hum_baseline = 40.0
+burn_datapoints = 300
 
 fieldname = ["Unix", "Date","Time", "Temperature", "Pressure", "Humidity", "Colour", "Orientation","Gas Resistance", "Heat Stability"]
 f_name = "CSVfile_" + str(datetime.date.today()) + ".csv"
@@ -21,14 +21,10 @@ except IOError:
 bh1745 = BH1745()
 lsm = LSM303D(0x1d)
 
-print('Calibration data:')
 for name in dir(sensor.calibration_data):
 
     if not name.startswith('_'):
         value = getattr(sensor.calibration_data, name)
-
-        if isinstance(value, int):
-            print('{}: {}'.format(name, value))
 
 bh1745.setup()
 bh1745.set_leds(1)
@@ -50,6 +46,19 @@ for name in dir(sensor.data):
 sensor.set_gas_heater_temperature(320)
 sensor.set_gas_heater_duration(150)
 sensor.select_gas_heater_profile(0)
+
+burn_in_data = []
+
+print("Collecting gas resistance data for {} datapoints\n".format(burn_datapoints))
+for i in range(burn_datapoints):
+    if sensor.get_sensor_data() and sensor.data.heat_stable:
+        gas = sensor.data.gas_resistance
+        burn_in_data.append(gas)
+        print("Gas resistance: {} Ohm".format(gas))
+        time.sleep(1)
+
+gas_baseline = sum(burn_in_data[-50:]) / 50.0
+print("Gas baseline: {} Ohms".format(gas_baseline))
 
 def write_headers(names):
     with open(f_name, "a") as f:
