@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>58c18661-1a59-4afc-91e6-b8147c6da05a</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Weather_Reader.py</StartupFile>
+    <StartupFile>Drive_Send.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -41,7 +41,6 @@
   <ItemGroup>
     <Content Include="client_secrets.json" />
     <Content Include="requirements.txt" />
-    <Content Include="settings.yaml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
