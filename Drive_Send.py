@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 yesterday = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
 
-filename = r"C:\Users\il184\Desktop\CSVfile_{0}.csv".format(yesterday)
+filename = r"\CSVfile_{0}.csv".format(yesterday)
 folder_name = "csv_files"
 
 def upload_func(f_name, folder_name):
