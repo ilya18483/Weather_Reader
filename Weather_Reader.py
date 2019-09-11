@@ -9,7 +9,7 @@ theDelay = 120
 hum_baseline = 40.0
 burn_datapoints = 300
 
-fieldname = ["Unix", "Date","Time", "Temperature", "Pressure", "Humidity", "Colour", "Orientation","Gas Resistance", "Heat Stability"]
+fieldname = ["Unix", "Date","Time", "Temperature", "Pressure", "Humidity", "Colour", "Orientation","Gas Resistance", "Heat Stability", "IAQ"]
 f_name = "CSVfile_" + str(datetime.date.today()) + ".csv"
 print(f_name)
 
@@ -106,11 +106,10 @@ def env_read(names, delay, GRbase, Humbase):
             gas_score = 100 - (hum_weighting * 100)
 
         air_quality_score = hum_score + gas_score
-        print("IAQ Index: {}".format(air_quality_score))
 
         with open(f_name, "a") as f:
             thewriter = csv.DictWriter(f, fieldnames=names)
-            thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability})
+            thewriter.writerow({"Unix":dt ,"Date": d, "Time": ti, "Temperature": tempa, "Pressure": pres, "Humidity": hum, "Colour":colour, "Orientation":orientation,"Gas Resistance":gas_resistance, "Heat Stability": heat_stability, "IAQ":air_quality_score})
         time.sleep(delay)
 
 def ch(file_name):
